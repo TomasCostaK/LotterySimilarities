@@ -1,0 +1,15 @@
+3 modulos
+	Contador Estocastico
+	Bloom Filter (com suas operaçoes)
+	Verificar semelhança
+
+Contador Estocastico (Feito mas verificar modo com prof)
+
+Bloom Filter(usar hash function para mapear os nossos inserts 
+	dentro do bloom filter, 
+	Calcular o melhor numero de hash functions a usar 
+	Implementar insert
+	Implementar isMember
+	Fazer uma boa Hash function
+
+Semelhança
