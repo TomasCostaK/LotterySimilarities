@@ -9,7 +9,7 @@ public class TesteContador {
             x=e1.getCont();
             y=e1.getSucesso();
             System.out.println(x + " -- " + y + "%");
-        }catch(ArithmeticException e){
+        } catch(ArithmeticException e){
             System.out.println("O maximo nao pode ser 0, exceçao : " + e);
         }
     }

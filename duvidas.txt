@@ -13,3 +13,17 @@ Bloom Filter(usar hash function para mapear os nossos inserts
 	Fazer uma boa Hash function
 
 Semelhança
+
+
+
+Numero de hash functions necessarias:
+	n = numero de elementos esperados
+	p = taxa de falsos positivos, ex 0.01 = 1%
+	m = numero de bits necessarios no bloom filter
+	k = numero de hash funcs
+
+	m = ( -n*ln(p) ) / ( ln(2)^2 )
+	k = m/n * ln(2)  <-- Calcular sempre isto
+
+	m = ceil((n * log(p)) / log(1 / pow(2, log(2))));
+	k = round((m / n) * log(2));
