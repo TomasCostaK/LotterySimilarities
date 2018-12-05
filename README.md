@@ -1,2 +1,5 @@
-De momento contador estocastico implementado, ver se podemos fazer como estamos a fazer
-Bloom Filter tem inicializaçao, ver como array vazio antes de definirmos a 0
+De momento contador estocastico implementado
+Bloom Filter tem inicializaçao, insert, isMember, delete e deleteAllInstancias
+    HashFunc usada com num2str, a str mais um index
+
+Minhash:
