@@ -1,29 +1,17 @@
 import java.util.*;
-import java.math.*;
 
 public class hashfunc {
-    private String chave;
-    private int nhf,k,p,hashCode;
-    private int [] r;
-    private static Random rand = new Random();
+    private int k,p,chave;
+    private int[] r;
 
-    public hashfunc(int nhf, String chave){
-        this.chave = chave;
-        this.nhf = nhf;
-        r = new int[nhf];
-
-        p=10001;
-        for (int i = 0; i < nhf; i++) {
-            int tmp = nextDouble(1.0)*p;
-            //r[i] = tmp;
-            System.out.println(tmp);
-        }
+    public hashfunc(int p, int[] r){
+        this.p = p;
+        this.r = r;
     }
 
-    //assumindo que r = nhf (nr de hash functions) (0...p-1)
-    //p é primo
-    public int generate(){
-        hashCode=3;
-        return hashCode;
+    //a fazer com inteiros apenas
+    public int generate(int k, int chave){
+        int hashcode = (r[k]*chave) % p;
+        return hashcode;
     }
 }
