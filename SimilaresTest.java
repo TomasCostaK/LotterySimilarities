@@ -3,7 +3,7 @@ import java.util.*;
 public class SimilaresTest {
     public static void main(String[] args) {
         int nhf = 100, p = 10001, max = 5;
-        double thresh = 0.85;
+        double thresh = 0.6;
         double[][] semMinHash;
 
         Similares sm1 = new Similares(thresh, nhf, p, max);

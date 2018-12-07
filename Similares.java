@@ -45,8 +45,8 @@ public class Similares {
                 //o objetivo e guardar num Mapa
             }
             //Mudar isto mais tarde
-            this.Nu = 100;
-            //this.Nu = Mapa.size();
+            //this.Nu = 100;
+            this.Nu = Mapa.size();
 
         } catch (Exception e) {
             System.out.println("Error opening file, exception " + e);
