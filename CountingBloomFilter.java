@@ -32,7 +32,7 @@ public class CountingBloomFilter {
 			String elem2 = Integer.toString(i);
 			String elem3 = elem + elem2;
 			int hashvalue = string2hash(elem3);
-			int h = (hashvalue % m) + 1; //+1 para o caso do resto = 0;
+			int h = Math.abs((hashvalue % m));
 			bloomfilter[h] += 1; //Vai incrementar de modo a ficar o count no BloomFilter
 		}
 		return bloomfilter;
@@ -45,7 +45,7 @@ public class CountingBloomFilter {
 			String elem2 = Integer.toString(i);
 			String elem3 = elem + elem2;
 			int hashvalue = string2hash(elem3);
-			int h = (hashvalue % m) + 1; //+1 para o caso do resto = 0;
+			int h = Math.abs(hashvalue % m);
 			if (bloomfilter[h] > 0) { //Caso seja <0 não podemos decrementar
 				bloomfilter[h] -= 1; //Vai decrementar			
 			}
@@ -63,7 +63,7 @@ public class CountingBloomFilter {
 			String elem2 = Integer.toString(i);
 			String elem3 = elem + elem2;
 			int hashvalue = string2hash(elem3);
-			int h = (hashvalue % m) + 1; //+1 para o caso do resto = 0;
+			int h = Math.abs(hashvalue % m);
 			if (bloomfilter[h] > 0) { 
 				bloomfilter[h] = 0; //O nº de ocorrências do elemento vai passar a ser 0			
 			}
@@ -85,7 +85,7 @@ public class CountingBloomFilter {
 			String elem2 = Integer.toString(i);
 			String elem3 = elem + elem2;
 			int hashvalue = string2hash(elem3);
-			int h = (hashvalue % m) + 1; //+1 para o caso do resto = 0;
+			int h = Math.abs(hashvalue % m);
 			a[i] = bloomfilter[h]; //Vai incrementar de modo a ficar o count no BloomFilter
 		}
     	
