@@ -1,5 +1,3 @@
-package Projeto;
-
 import java.util.*;
 
 public class CountingBloomFilter {
@@ -38,7 +36,7 @@ public class CountingBloomFilter {
 		return bloomfilter;
     }
     
-    //Eliminar 1 ocorrência do elemento do CountingBloomFilter
+    //Eliminar 1 ocorrï¿½ncia do elemento do CountingBloomFilter
     public int[] deleteElem(int[] bloomfilter, String elem) {
     	int m = bloomfilter.length;
     	for (int i = 0; i < this.hashFunctions; i++) {
@@ -46,11 +44,11 @@ public class CountingBloomFilter {
 			String elem3 = elem + elem2;
 			int hashvalue = string2hash(elem3);
 			int h = (hashvalue % m) + 1; //+1 para o caso do resto = 0;
-			if (bloomfilter[h] > 0) { //Caso seja <0 não podemos decrementar
+			if (bloomfilter[h] > 0) { //Caso seja <0 nï¿½o podemos decrementar
 				bloomfilter[h] -= 1; //Vai decrementar			
 			}
 			else {
-				System.out.print("O elemento não pertence ao BloomFilter");
+				System.out.print("O elemento nï¿½o pertence ao BloomFilter");
 			}
 		}
     	return bloomfilter;
@@ -65,16 +63,16 @@ public class CountingBloomFilter {
 			int hashvalue = string2hash(elem3);
 			int h = (hashvalue % m) + 1; //+1 para o caso do resto = 0;
 			if (bloomfilter[h] > 0) { 
-				bloomfilter[h] = 0; //O nº de ocorrências do elemento vai passar a ser 0			
+				bloomfilter[h] = 0; //O nï¿½ de ocorrï¿½ncias do elemento vai passar a ser 0			
 			}
 			else {
-				System.out.println("O elemento não pertence ao BloomFilter");
+				System.out.println("O elemento nï¿½o pertence ao BloomFilter");
 			}
 		}
     	return bloomfilter;
     }
     
-    //Verificar se o BloomFilter contêm ou não o elemento e quantas vezes este já foi inserido
+    //Verificar se o BloomFilter contï¿½m ou nï¿½o o elemento e quantas vezes este jï¿½ foi inserido
     public int contains(int[] bloomfilter, String elem) {
     	int m = bloomfilter.length;
     	int contains = 1;
@@ -95,7 +93,7 @@ public class CountingBloomFilter {
     			min = a[j];
     		}
     	}
-    	contains = min; //if contains = 0  -> o elem não pertence ao BloomFilter 
+    	contains = min; //if contains = 0  -> o elem nï¿½o pertence ao BloomFilter 
     	
     	return contains;
     }
