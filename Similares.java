@@ -44,29 +44,31 @@ public class Similares {
                 //args[1]-user  args2-filme 
                 //o objetivo e guardar num Mapa
             }
-            this.Nu = Mapa.size();
+            //Mudar isto mais tarde
+            this.Nu = 100;
+            //this.Nu = Mapa.size();
 
         } catch (Exception e) {
             System.out.println("Error opening file, exception " + e);
         }
     }
 
-    public int calcDistance(){
+    public double[][] calcDistance(){
         int[] r = new int[nhf];
         Random rand = new Random();
+
         //Prencher o vetor r com valores aleatorios
         for (int i = 0; i < nhf; i++) {
             r[i]= rand.nextInt(Nu)+1;
         }
+        //Nova Hashfunc
         hashfunc h = new hashfunc(p, r);
-
-        //System.out.println(Mapa);
-        //System.out.println(Mapa.get(941).size());
-        
 
         int[][] MinHash = new int[nhf][Nu]; //array nhf x Nu
 
-        for (int u = 1; u < Nu ; u+=4) { //da nos ind do user
+        //Calcular matriz
+        for (int u = 1; u < Nu ; u++) { //da nos ind do user
+            System.out.println("---Nova entrada---");
             for (int k = 0; k < nhf; k++) {
                 int minimo = h.generate(k, Mapa.get(u).get(0));
 
@@ -81,12 +83,42 @@ public class Similares {
                 MinHash[k][u] = minimo;
                 System.out.println("U= " + u + " K= " + k + " MinHash[k][u]= " + MinHash[k][u]);
             }
-            System.out.println("---Nova entrada---");
         }
 
+        //Distancia MinHash
+        //Primeiro linhas - depois colunas
+        double[][] semMinHash = new double[Nu][Nu];
 
-        
-        return 0;
+        //Mudar 4 por Nu, isto percorre 2 users
+        for (int u1 = 1; u1 < Nu; u1++) {
+            for (int u2 = 0; u2 < u1; u2++) {
+                int conta=0;
+
+                for (int k = 0; k < nhf; k++) {
+                    //System.out.println(MinHash[k][u1] + " == " + MinHash[k][u2]);
+                    if (MinHash[k][u1] == MinHash[k][u2]) {
+                        conta++;
+                    }
+                }
+
+                double sem=((double)conta/nhf);
+                semMinHash[u1][u2]=sem;
+                semMinHash[u2][u1]=sem;
+                //System.out.println(semMinHash[u2][u1]);
+            }
+        }
+        return semMinHash;
     }
 
+    public void similarUsers(double[][] semMinHash){
+
+        for (int u1 = 1; u1 < Nu; u1++) {
+            for (int u2 = 0; u2 < u1; u2++) {
+                if(semMinHash[u1][u2] > thresh){
+                    System.out.println("Users semelhantes: " + u1 + " e " +u2 + ", Semelhança= " + 100*semMinHash[u1][u2]);
+                }
+            }
+        }
+
+    }
 }
