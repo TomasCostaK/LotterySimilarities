@@ -5,6 +5,7 @@ public class SimilaresTest {
         int chave, p = 10001, nhf = 100;
         int[] r = new int[nhf];
         Random rand = new Random();
+        
         //Prencher o vetor r com valores aleatorios
         for (int i = 0; i < nhf; i++) {
             r[i]= rand.nextInt(p)+1;
