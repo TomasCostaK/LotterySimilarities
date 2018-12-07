@@ -2,9 +2,9 @@ import java.util.*;
 
 public class CountingBloomFilter {
     private int numElementos, sizeArr, hashFunctions;
-    private double fatorC; //Fator carga
+	private double fatorC; //Fator carga
     
-    public CountingBloomFilter(double fatorC, int numElementos, int hashFunctions){
+    public CountingBloomFilter(double fatorC, int numElementos){
         this.fatorC = fatorC;
         this.numElementos = numElementos;
         this.sizeArr = (int) Math.round( (double)numElementos/fatorC) ;
@@ -30,7 +30,7 @@ public class CountingBloomFilter {
 			String elem2 = Integer.toString(i);
 			String elem3 = elem + elem2;
 			int hashvalue = string2hash(elem3);
-			int h = (hashvalue % m) + 1; //+1 para o caso do resto = 0;
+			int h = Math.abs((hashvalue % m));
 			bloomfilter[h] += 1; //Vai incrementar de modo a ficar o count no BloomFilter
 		}
 		return bloomfilter;
@@ -43,7 +43,7 @@ public class CountingBloomFilter {
 			String elem2 = Integer.toString(i);
 			String elem3 = elem + elem2;
 			int hashvalue = string2hash(elem3);
-			int h = (hashvalue % m) + 1; //+1 para o caso do resto = 0;
+			int h = Math.abs(hashvalue % m);
 			if (bloomfilter[h] > 0) { //Caso seja <0 n�o podemos decrementar
 				bloomfilter[h] -= 1; //Vai decrementar			
 			}
@@ -61,7 +61,7 @@ public class CountingBloomFilter {
 			String elem2 = Integer.toString(i);
 			String elem3 = elem + elem2;
 			int hashvalue = string2hash(elem3);
-			int h = (hashvalue % m) + 1; //+1 para o caso do resto = 0;
+			int h = Math.abs(hashvalue % m);
 			if (bloomfilter[h] > 0) { 
 				bloomfilter[h] = 0; //O n� de ocorr�ncias do elemento vai passar a ser 0			
 			}
@@ -77,16 +77,17 @@ public class CountingBloomFilter {
     	int m = bloomfilter.length;
     	int contains = 1;
     	int [] a = new int[this.hashFunctions];
-    	int min = a[0];
     	
     	for (int i = 0; i < this.hashFunctions; i++) {
 			String elem2 = Integer.toString(i);
 			String elem3 = elem + elem2;
 			int hashvalue = string2hash(elem3);
-			int h = (hashvalue % m) + 1; //+1 para o caso do resto = 0;
+			int h = Math.abs(hashvalue % m);
 			a[i] = bloomfilter[h]; //Vai incrementar de modo a ficar o count no BloomFilter
 		}
-    	
+
+		int min = a[0];
+
     	//Determinar o menor valor do array
     	for (int j = 0; j < a.length; j++) {
     		if(a[j] < min) {
