@@ -2,9 +2,10 @@ import java.util.*;
 import java.io.*;
 
 public class Similares {    
-    private int nhf, p, max, Nu;
+    private int nhf, p, nfinal, Nu;
     private double thresh;
     private String[] args;
+    HashMap <Integer, ArrayList<Integer>> MapaUsers = new HashMap <Integer, ArrayList<Integer>>();
     HashMap <String, ArrayList<Integer>> Mapa = new HashMap <String, ArrayList<Integer>>();
     private LinkedHashMap<Integer,String> pares = new LinkedHashMap<Integer,String>();
 
@@ -12,11 +13,11 @@ public class Similares {
     //ficamos com tamanho de users unico (length map)
     //e tambem com os valores dos users que sao as keys do map
 
-    public Similares(double thresh, int nhf, int p, int max){
+    public Similares(double thresh, int nhf, int p, int nfinal){
         this.thresh = thresh;
         this.nhf = nhf;
         this.p = p;
-        this.max = max;
+        this.nfinal = nfinal;
     }
 
     //Dados User-Filmes.. Guardado em Mapa
@@ -28,10 +29,10 @@ public class Similares {
                 int user = Integer.parseInt(args[0]);
                 int filme = Integer.parseInt(args[1]);
 
-                if(Mapa.containsKey(user)){
+                if(MapaUsers.containsKey(user)){
                     // if the key has already been used,
                     // we'll just grab the array list and add the value to it
-                    list = Mapa.get(user);
+                    list = MapaUsers.get(user);
                     list.add(filme);
                 } else {
                     // if the key hasn't been used yet,
@@ -39,7 +40,7 @@ public class Similares {
                     // and put it in the array list with the new key
                     list = new ArrayList<Integer>();
                     list.add(filme);
-                    Mapa.put(user, list);
+                    MapaUsers.put(user, list);
                 }
                 //talvez fazer unique destes, com ciclos for
                 //args[1]-user  args2-filme 
@@ -47,7 +48,7 @@ public class Similares {
             }
             //Mudar isto mais tarde
             //this.Nu = 100;
-            this.Nu = Mapa.size();
+            this.Nu = MapaUsers.size();
 
         } catch (Exception e) {
             System.out.println("Error opening file, exception " + e);
@@ -56,14 +57,19 @@ public class Similares {
 
     public double[][] calcDistance(){
         int[] r = new int[nhf];
+        int[] r2 = new int[nhf];
         Random rand = new Random();
 
-        //Prencher o vetor r com valores aleatorios
+        //Prencher os vetores r com valores aleatorios
         for (int i = 0; i < nhf; i++) {
             r[i]= rand.nextInt(Nu)+1;
         }
+        for (int i2 = 0; i2 < nhf; i2++) {
+            r2[i2]= rand.nextInt(Nu)+1;
+        }
+
         //Nova Hashfunc
-        hashfunc h = new hashfunc(p, r);
+        hashfunc h = new hashfunc(p, r, r2);
 
         int[][] MinHash = new int[nhf][Nu]; //array nhf x Nu
 
@@ -71,15 +77,15 @@ public class Similares {
         for (int u = 1; u < Nu ; u++) { //da nos ind do user
             System.out.println("---Nova entrada---");
             for (int k = 0; k < nhf; k++) {
-                int minimo = h.generate(k, Mapa.get(u).get(0));
+                int minimo = h.generate(k, MapaUsers.get(u).get(0));
 
-                for (int v = 0; v < Mapa.get(u).size(); v++) {
-                    int tmp = h.generate(k,Mapa.get(u).get(v));
+                for (int v = 0; v < MapaUsers.get(u).size(); v++) {
+                    int tmp = h.generate(k,MapaUsers.get(u).get(v));
                     //System.out.println(tmp);
                     if(tmp<minimo){
                         minimo=tmp;
                     }
-                    //Aqui acabamos a verificaçao e passamos ao proximo user
+                    //Aqui acabamos a verificaçao e passamos ao proximo user Mapa
                 }
                 MinHash[k][u] = minimo;
                 System.out.println("U= " + u + " K= " + k + " MinHash[k][u]= " + MinHash[k][u]);
@@ -131,9 +137,9 @@ public class Similares {
         //Ordem nao importa
         try (BufferedReader br = new BufferedReader(new FileReader(filename)) ) {
             br.readLine();
-            for (String line = null; (line = br.readLine()) != null;) {
-            //for (int k = 0; k < 200; k++) {
-                //String line = br.readLine();
+            String line=null;
+            for (int k = 0; k < nfinal; k++) {
+                line = br.readLine();
                 ArrayList<Integer> list = new ArrayList<>();
 
                 args = line.split(",");
@@ -178,7 +184,6 @@ public class Similares {
         //Calcular matriz
         for (String key : Mapa.keySet()) { //da nos ind da data
             //Associar a cada key um indice
-            System.out.println("---Nova entrada--- " + key);
             for (int k = 0; k < nhf; k++) {
                 int minimo = h.generate2(k, Mapa.get(key).get(0));
 

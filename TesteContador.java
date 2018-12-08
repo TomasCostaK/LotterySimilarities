@@ -5,7 +5,7 @@ public class TesteContador {
         try {
             int x,max=100000;
             double prob=0.5;
-            contadorEstocastico e1 = new contadorEstocastico(prob);
+            ContadorEstocastico e1 = new ContadorEstocastico(prob);
             for (int i=0;i<max ; i++) {
                 e1.cont();
             }

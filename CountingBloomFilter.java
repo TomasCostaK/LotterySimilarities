@@ -3,13 +3,15 @@ import java.io.*;
 
 public class CountingBloomFilter {
     private int numElementos, sizeArr, hashFunctions;
-	private double fatorC; //Fator carga
+    private double fatorC; //Fator carga
+    private String sortudo;
     
     public CountingBloomFilter(double fatorC, int numElementos){
         this.fatorC = fatorC;
         this.numElementos = numElementos;
         this.sizeArr = (int) Math.round( (double)numElementos/fatorC) ;
         this.hashFunctions = (int) Math.round((sizeArr / numElementos) * Math.log(2));
+        this.sortudo = sortudo;
     }
     
     //Inicialize BloomFilter
@@ -111,17 +113,22 @@ public class CountingBloomFilter {
 
 			while (sc.hasNext()) {
 				String palavra = sc.next();
+                                palavra = palavra.replaceAll("[$,.!?_]", "");
 				B = insert(B, palavra);
 				System.out.println(palavra + " foi adicionada ao bloomfilter.");
 			}
-            sc.close();
-
+                        
+                    sc.close();
 		} catch (Exception e) {
-            System.out.println("Problemas a abrir ficheiro: " + e);
+                    System.out.println("Problemas a abrir ficheiro: " + e);
 		}
 		return B;
-	} 
+	}
 	
+    //Muda esta funçao aqui para que mostre todas as palavras num texto
+    public void checkAll(String filename,int[] B) {
+     
+    }    
 	     
     public void checkFilter(String chosen,int[] B) {
 		Scanner sc1 = new Scanner(System.in);
@@ -133,6 +140,35 @@ public class CountingBloomFilter {
 		else{
 			System.out.println(chosen + " não pertence.");
 		}
-	}
+    }
+    
+    public void checkSortudo(String filename, int[] B) {
+	Scanner sc1 = new Scanner(System.in);
+        int maximo=0;
+        Map<Integer,String> sortudoMapa = new HashMap<>();
+        
+        try {
+            File file = new File(filename);
+            Scanner sc = new Scanner(file);
+
+            while (sc.hasNextLine()) {
+                String palavra = sc.nextLine();
+                int contains = contains(B, palavra);
+                //System.out.println("Palavra= "+palavra+", contains= "+contains+", maximo="+maximo);
+		//Com esta cena tens o numero de vezes que aparece, o palava e contains, repete basicamente
+                if (contains > maximo) {
+                    maximo = contains;
+                    sortudoMapa.put(maximo,palavra);
+		}
+                
+            }
+            System.out.println("A nome mais provável de ganhar é: " + sortudoMapa.get(maximo));
+            
+            sc.close();
+
+        } catch (Exception e) {
+            System.out.println("Problemas a abrir ficheiro: " + e);
+        }
+    }
 
 }
