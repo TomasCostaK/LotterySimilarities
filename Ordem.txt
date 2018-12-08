@@ -1,0 +1,14 @@
+Quantos queres contabilizar? (Recomendamos + 700)
+	Lemos n
+	Fazemos prob n/1725;
+	contador estocastico com essa prob;
+	definimos max de elementos como cont
+
+Inserir no bloomfilter (textfile)
+	Iniciar
+	Inserir texto
+	Ver quantas vezes contem a palavra
+
+Ver semelhança das combinaçoes do numero do megamilhoes
+	correr dataset
+	definir semelhança, passar a func

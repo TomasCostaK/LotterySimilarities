@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class main {
+public class testebloom {
 	public static void main(String[] args) {
 		
 		//Defenir vari�veis

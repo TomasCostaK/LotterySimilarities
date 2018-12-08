@@ -1,4 +1,5 @@
 import java.util.*;
+import java.io.*;
 
 public class CountingBloomFilter {
     private int numElementos, sizeArr, hashFunctions;
@@ -97,5 +98,41 @@ public class CountingBloomFilter {
     	contains = min; //if contains = 0  -> o elem n�o pertence ao BloomFilter 
     	
     	return contains;
-    }
+	}
+
+	public int[] startBloom(String filename) {
+		//Inicializar
+		int[] B = inicialize();
+	
+		//Inserir 
+        try {
+			File file = new File(filename);
+			Scanner sc = new Scanner(file);
+
+			while (sc.hasNext()) {
+				String palavra = sc.next();
+				B = insert(B, palavra);
+				System.out.println(palavra + " foi adicionada ao bloomfilter.");
+			}
+            sc.close();
+
+		} catch (Exception e) {
+            System.out.println("Problemas a abrir ficheiro: " + e);
+		}
+		return B;
+	} 
+	
+	     
+    public void checkFilter(String chosen,int[] B) {
+		Scanner sc1 = new Scanner(System.in);
+		int contains = contains(B, chosen);
+		if (contains > 0) {
+			System.out.println(chosen+ " deve pertencer " + contains + " vezes.");
+		}
+
+		else{
+			System.out.println(chosen + " não pertence.");
+		}
+	}
+
 }
